@@ -1,0 +1,17 @@
+{
+    "firstName": "Lucas",
+    "lastName": "Porto",
+    "email": "lucas.porto@example.com",
+    "phone": "1234567890",
+    "address": "123 Main St",
+    "gender": "Male",
+    "hobbies": ["Movies", "Hockey"],
+    "languages": ["English", "Portuguese"],
+    "skills": "Javascript",
+    "country": "Netherlands",
+    "dateOfBirth": {
+        "year": "1990",
+        "month": "June",
+        "day": "15"
+    }
+}

@@ -1,11 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-/**
- * API-level checks that run without a browser.
- * Kept in a dedicated Playwright project (see playwright.config.ts) so the
- * suite doubles as functional + contract coverage and stays fast in CI.
- */
-
 const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
 test.describe('API - posts', () => {

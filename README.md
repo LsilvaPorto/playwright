@@ -16,11 +16,13 @@ End-to-end and API automation built with **Playwright** and **TypeScript**, targ
 ```bash
 npm ci
 npx playwright install --with-deps
+cp example.env .env
 npx playwright test
 ```
 
-No secrets to configure — the target app ships public demo accounts
-(`config/users.ts`).
+The target app ships public demo accounts, but they are still read from `.env`
+(git-ignored) via `config/users.ts` — the same wiring you'd use for private
+credentials. `example.env` holds the shareable defaults.
 
 ## Running
 
@@ -35,7 +37,7 @@ No secrets to configure — the target app ships public demo accounts
 ## Layout
 
 ```
-config/      public demo credentials (users.ts)
+config/      test accounts read from .env (users.ts)
 pages/       Page Objects (LoginPage, AccountPage)
 support/     custom test fixtures (POM injection)
 tests/       auth.setup.ts (login → storageState), *.spec.ts (UI), *.api.spec.ts (API)

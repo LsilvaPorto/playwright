@@ -29,6 +29,10 @@ class RegisterPage {
         this.submitButton = page.locator('button[type="submit"]');
     }
 
+    async open() {
+        await this.page.goto('/Register.html');
+    }
+
     genderInput(gender: UserData['gender']): Locator {
         return this.page.getByRole('radio', { name: gender, exact: true });
     }

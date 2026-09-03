@@ -20,6 +20,10 @@ class AlertPage {
         this.confirmBoxTab = page.locator('a[href="#CancelTab"]');
         this.promptBoxTab = page.locator('a[href="#Textbox"]');
     }
+
+    async open() {
+        await this.page.goto('/Alerts.html');
+    }
 }
 
 export default AlertPage;

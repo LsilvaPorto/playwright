@@ -1,31 +1,27 @@
 import { test as setup, expect } from '@playwright/test';
-import SigninPage from '../pages/signinPage';
-import { getCredential } from '../config/credentials';
+import LoginPage from '../pages/loginPage';
+import { users } from '../config/users';
 
-const authFile = 'playwright/.auth/user.json';
+const authFile = 'playwright/.auth/customer.json';
 
 /**
  * Runs once before the browser projects (wired via `dependencies: ['setup']`).
- * Goes through the email gate + cookie consent a single time and saves the
- * resulting cookies/localStorage to disk. The browser projects load it via
- * `storageState`, so individual specs start from that state.
+ * Logs in through the UI a single time and persists the session
+ * (localStorage `auth-token` + cookies) to disk. The browser projects load it
+ * via `storageState`, so specs start already authenticated.
  *
- * Note: this demo app has no real authentication, so what actually persists
- * here is just the cookie-consent choice. On an app with a login, the saved
- * session token would ride along in exactly the same way.
- *
- * Ads/trackers are NOT blocked here on purpose: the consent script is one of
- * them, and it needs to run so we can accept it and capture the result.
+ * Note: this app issues a short-lived JWT (~5 min). The setup runs immediately
+ * before the projects that depend on it, so a normal run stays well inside that
+ * window; a very long run may need the token refreshed.
  */
-setup('authenticate', async ({ page }) => {
-    const signin = new SigninPage(page);
-    await signin.open();
+setup('authenticate as customer', async ({ page }) => {
+    const loginPage = new LoginPage(page);
 
-    const { email } = getCredential('dev', 'validLogin', 'common');
-    await signin.signin(email);
-    await expect(page).toHaveTitle(/Register/);
+    await loginPage.open();
+    await loginPage.login(users.customer);
 
-    await signin.acceptCookies();
+    await page.waitForURL('**/account');
+    await expect(page.getByTestId('nav-menu')).toBeVisible();
 
     await page.context().storageState({ path: authFile });
 });

@@ -1,30 +1,11 @@
-import { test, expect } from '@playwright/test';
-import SigninPage from '../pages/signinPage';
-import { getCredential, getRegisterPassword } from '../config/credentials';
-import { blockAds } from '../config/blockAds';
-import Nav from '../pages/components/Nav';
-import AlertPage from '../pages/alertPage';
+import { test, expect } from '../support/fixtures';
 
-test.beforeEach(async ({ page }) => {
-  await blockAds(page);
-  const signin = new SigninPage(page);
-  const nav = new Nav(page);
-  const switchToBtn = nav.switchToBtn;
-  await signin.open();
-
-  const credential = getCredential('dev', 'validLogin', 'common');
-  await signin.signin(credential.email);
-
-  await expect(page).toHaveTitle(/Register/);
-  await signin.acceptCookies();
-  await switchToBtn.click();
-  const switchToMenu = nav.switchToAlertsItem;
-  await switchToMenu.click();
+test.beforeEach(async ({ alertPage, page }) => {
+  await alertPage.open();
   await expect(page).toHaveTitle(/Alerts/);
 });
 
-test('alert validation', async ({ page }) => {
-  const alertPage = new AlertPage(page);
+test('alert validation', async ({ alertPage, page }) => {
   const alertBoxBtn = alertPage.alertBoxBtn;
 
   await alertPage.alertBoxTab.click();
@@ -37,8 +18,7 @@ test('alert validation', async ({ page }) => {
   await alertBoxBtn.click();
 });
 
-test('confirmation validation', async ({ page }) => {
-  const alertPage = new AlertPage(page);
+test('confirmation validation', async ({ alertPage, page }) => {
   const confirmBoxBtn = alertPage.confirmBoxBtn;
 
   await alertPage.confirmBoxTab.click();
@@ -61,8 +41,7 @@ test('confirmation validation', async ({ page }) => {
   await expect(alertPage.confirmBoxResult).toHaveText('You Pressed Cancel');
 });
 
-test('textbox validation', async ({ page }) => {
-  const alertPage = new AlertPage(page);
+test('textbox validation', async ({ alertPage, page }) => {
   const promptBoxBtn = alertPage.promptBoxBtn;
 
   await alertPage.promptBoxTab.click();

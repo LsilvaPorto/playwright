@@ -30,7 +30,10 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
-    baseURL: 'https://demo.automationtesting.in/',
+    baseURL: 'https://practicesoftwaretesting.com',
+
+    /* The app tags elements with data-test, so getByTestId() targets those. */
+    testIdAttribute: 'data-test',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -43,7 +46,7 @@ export default defineConfig({
       testMatch: /.*\.api\.spec\.ts/,
     },
     {
-      /* Logs in once and saves the session to playwright/.auth/user.json. */
+      /* Logs in once and saves the session to playwright/.auth/customer.json. */
       name: 'setup',
       testMatch: /.*\.setup\.ts/,
     },
@@ -51,7 +54,7 @@ export default defineConfig({
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: 'playwright/.auth/user.json',
+        storageState: 'playwright/.auth/customer.json',
       },
       dependencies: ['setup'],
       testIgnore: /.*\.api\.spec\.ts/,
@@ -60,7 +63,7 @@ export default defineConfig({
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
-        storageState: 'playwright/.auth/user.json',
+        storageState: 'playwright/.auth/customer.json',
       },
       dependencies: ['setup'],
       testIgnore: /.*\.api\.spec\.ts/,
@@ -69,7 +72,7 @@ export default defineConfig({
       name: 'webkit',
       use: {
         ...devices['Desktop Safari'],
-        storageState: 'playwright/.auth/user.json',
+        storageState: 'playwright/.auth/customer.json',
       },
       dependencies: ['setup'],
       testIgnore: /.*\.api\.spec\.ts/,
